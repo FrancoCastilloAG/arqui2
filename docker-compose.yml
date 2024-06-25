@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  nest-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+      - '50053:50053'  # gRPC port
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      DATABASE_HOST: postgres  # Aquí se define el host de la base de datos
+    volumes:
+      - .:/usr/src/app
+    command: npm run start:dev
+
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Fran2811"
+      POSTGRES_DB: "arquitectura2"
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

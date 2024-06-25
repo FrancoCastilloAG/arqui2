@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package voting;
+
+service VotingService {
+  rpc CreateElection(CreateElectionRequest) returns (Election);
+  rpc GetElection(GetElectionRequest) returns (Election);
+  rpc ListElections(Empty) returns (ElectionList);
+
+  rpc CreateVoteCount(CreateVoteCountRequest) returns (VoteCount);
+  rpc GetVoteCount(GetVoteCountRequest) returns (VoteCount);
+  rpc ListVoteCounts(Empty) returns (VoteCountList);
+
+  rpc CreateParticipant(CreateParticipantRequest) returns (Participant);
+  rpc GetParticipant(GetParticipantRequest) returns (Participant);
+  rpc ListParticipants(Empty) returns (ParticipantList);
+}
+
+message Empty {}
+
+message CreateElectionRequest {
+  int32 year = 1;
+  string date = 2;
+  string start_time = 3;
+  string end_time = 4;
+}
+
+message GetElectionRequest {
+  int32 id = 1;
+}
+
+message Election {
+  int32 id = 1;
+  int32 year = 2;
+  string date = 3;
+  string start_time = 4;
+  string end_time = 5;
+}
+
+message ElectionList {
+  repeated Election elections = 1;
+}
+
+message CreateVoteCountRequest {
+  int32 election = 1;
+  int32 idLista = 2;
+  int32 cantVotos = 3;
+}
+
+message GetVoteCountRequest {
+  int32 id = 1;
+}
+
+message VoteCount {
+  int32 id = 1;
+  int32 election = 2;
+  int32 list_id = 3;
+  int32 vote_count = 4;
+}
+
+message VoteCountList {
+  repeated VoteCount vote_counts = 1;
+}
+
+message CreateParticipantRequest {
+  int32 election = 1;
+  int32 idUsuario = 2;
+  string horarioVotacion = 3;
+}
+
+message GetParticipantRequest {
+  int32 id = 1;
+}
+
+message Participant {
+  int32 id = 1;
+  int32 election = 2;
+  int32 user_id = 3;
+  string voting_time = 4;
+}
+
+message ParticipantList {
+  repeated Participant participants = 1;
+}
